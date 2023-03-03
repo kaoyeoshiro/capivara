@@ -1,0 +1,879 @@
+---
+question: |
+  Dados do Processo:
+fields:
+  - Patologia(s) da parte Autora: patologia 
+  - Município da Ação: mun_
+    input type: combobox
+    choices: 
+      - CAMPO GRANDE
+      - DOURADOS
+      - TRÊS LAGOAS
+      - CORUMBÁ
+      - ÁGUA CLARA
+      - ALCINÓPOLIS
+      - AMAMBAI
+      - ANASTÁCIO
+      - ANAURILÂNDIA
+      - ANGÉLICA
+      - ANTÔNIO JOÃO
+      - APARECIDA DO TABOADO
+      - AQUIDAUNA
+      - ARAL MOREIRA
+      - BANDEIRANTES
+      - BATAGUASSU
+      - BATAYPORÃ
+      - BELA VISTA
+      - BODOQUENA
+      - BONITO
+      - BRASILÂNDIA
+      - CAARAPÓ
+      - CAMAPUÃ
+      - CARACOL
+      - CASSILÂNDIA
+      - CHAPADÃO DO SUL
+      - CORGUINHO
+      - CORONEL SAPUCAIA
+      - COSTA RICA
+      - COXIM 
+      - DEODÁPOLIS
+      - DOIS IRMÃOS DO BURITI
+      - DOURADINA
+      - ELDORADO
+      - FÁTIMA DO SUL
+      - FIGUEIRÃO
+      - GLÓRIA DE DOURADOS
+      - GUIA LOPES DA LAGUNA
+      - IGUATEMI
+      - INOCÊNCIA
+      - ITAPORÃ
+      - ITAQUIRAÍ
+      - IVINHEMA
+      - JOPORÃ
+      - JARAGUARI
+      - JARDIM
+      - JATEÍ
+      - JUTI
+      - LADÁRIO
+      - LAGUNA CARAPÃ
+      - MARACAJÚ
+      - MIRANDA
+      - MUNDO NOVO
+      - NAVIRAÍ
+      - NIOAQUE
+      - NOVA ALVORADA DO SUL
+      - NOVA ANDRADINA
+      - NOVO HORIZONTE DO SUL
+      - PARANAÍBA
+      - PARANHOS
+      - PEDRO GOMES
+      - PONTA PORÃ
+      - PORTO MURTINHO
+      - RIBAS DO RIO PARDO
+      - RIO BRILHANTE
+      - RIO NEGRO
+      - RIO VERDE DE MATO GROSSO
+      - ROCHEDO
+      - SANTA RITA DO PARDO
+      - SÃO GABRIEL DO OESTE
+      - SELVÍRIA
+      - SIDROLÂNDIA
+  - Representação da parte Autora: autor_adv
+    input type: checkboxes
+    choices: 
+      - Defensoria Pública Estadual
+      - Defensoria Pública da União
+      - Ministério Público
+      - Advogado Particular
+  - Juízo do Processo: juizo
+    input type: checkboxes
+    choices: 
+      - Justiça Comum Estadual
+      - Juizado Especial Estadual
+      - Justiça Comum Federal
+      - Juizado Especial Federal
+  - "A ação foi ajuizada na Justiça Comum apenas sob a alegação de necessidade de perícia?": juizado_per
+    datatype: yesnoradio
+    show if: 
+      variable: juizo   
+      is: Justiça Comum Estadual
+  - Parecer do NAT: parecer_nat
+    input type: checkboxes
+    choices: 
+      - favorável
+      - parcialmente Favorável
+      - desfavorável
+      - não emitido
+  - "Pedido de Tutela": tutela_dec
+    input type: checkboxes
+    choices: 
+      - deferido
+      - parcialmente deferido
+      - indeferido
+      - não apreciado
+  - "Houve designação de audiência inicial?": design_aud
+    datatype: yesnoradio
+  - "A União integra o polo passivo?": uniao_polo
+    datatype: yesnoradio
+  - "O Município integra o polo passivo?": mun_polo
+    datatype: yesnoradio
+  - "Qual o custo anual estimado da causa (R$)?": valor
+    input type: checkboxes
+    choices: 
+      - 'até R$ 35.999,99'
+      - 'entre até R$ 36.000,00 e R$ 78.000,00 - 60 s.m'
+      - 'entre R$ 78.000,00 e R$ 120.000,00'
+      - 'acima de R$ 120.000,00'
+mandatory: True
+---
+question: |
+  Dados sobre a Tutela:
+fields:
+  - "Houve a fixação de multa na decisão que deferiu a tutela?": tutela_multa
+    datatype: yesnoradio
+  - "Houve a responsabilização pessoal de agente público na decisão que deferiu a tutela?": tutela_resp
+    datatype: yesnoradio
+  - "Houve direcionamento das obrigações conforme regras de repartição de competência?": tutela_direcionamento
+    datatype: yesnoradio
+---
+question: |
+  Marque os objeto(s) da ação:
+fields:
+  - Medicamento: medicamento
+    datatype: yesnowide
+  - Cirurgia: cirurgia
+    datatype: yesnowide
+  - Consulta: consulta
+    datatype: yesnowide
+  - Exame: exame
+    datatype: yesnowide
+  - Há pedido de fornecimento de medicamento com nome comercial?: nome_comercial
+    datatype: yesnoradio
+    show if:
+      variable: medicamento
+      is: True
+  - Foi anexada prescrição médica?: receita_med
+    datatype: yesnoradio
+    show if:
+      variable: medicamento
+      is: True
+  - Nome da Cirurgia: nome_cirurgia
+    help: |
+      Ex: Indicar apenas o nome da cirurgia. Ex: Revisão de Quadril    
+    required: False
+    datatype: area
+    show if:
+      variable: cirurgia
+      is: True
+  - Especialidade da Consulta: nome_consulta
+    help: |
+      Indicar apenas a especialidade. Ex: Cardiologia, Ortopedia, etc. 
+    required: False
+    datatype: area
+    show if:
+      variable: consulta
+      is: True
+  - Nome do Exame: nome_exame
+    help: |
+      Indicar apenas o nome do exame. Ex: Raio-X, Tomografia, etc. 
+    required: False
+    datatype: area
+    show if:
+      variable: exame
+      is: True
+under: |
+  Marcar apenas os objetos que serão impugnados, excluindo-se aquilo que for objeto de anotação.    
+---
+question: |
+  Selecione os Grupo do(s) Medicamento(s) Judicializados:
+fields:
+  - Sem Registro na ANVISA: sem_anvisa
+    datatype: yesnowide
+  - Não Incorporado ao SUS: naoinc
+    datatype: yesnowide
+  - Incorporado ao SUS para patologia diversa do paciente: pat_div
+    datatype: yesnowide
+  - Incorporado ao SUS com dosagem diversa: dos_div
+    datatype: yesnowide 
+  - Medicamento Incorporado ao SUS com forma de dispensação diversa: for_div
+    datatype: yesnowide
+  - Insulina: insulina
+    datatype: yesnowide
+  - Grupo 1A CEAF: um_a
+    datatype: yesnowide
+  - Grupo 1B/2 CEAF: dois_b
+    datatype: yesnowide
+  - CBAF: cbaf
+    datatype: yesnowide
+  - Oncológico: onco
+    datatype: yesnowide
+  - 'A parte é atendida em um CACON/UNACON?': onco_unacon
+    datatype: yesnoradio
+    show if:
+      variable: onco
+      is: True
+  - Canabidiol: cannabis
+    datatype: yesnowide    
+  - Nome do(s) medicamento(s) não Incorporado(s): nome_naoinc
+    required: True
+    datatype: area
+    show if:
+      variable:
+       naoinc
+      is:
+        True
+  - Nome do(s) medicamento(s) Incorporado(s) para Patologia Diversa: nome_pat_div
+    required: True
+    datatype: area
+    show if:
+      variable: pat_div
+      is: True
+  - Para qual patologia o medicamento é incorporado?: patologia_div
+    required: True
+    datatype: area
+    show if:
+      variable: pat_div
+      is: True
+  - Nome do medicamento incorporado com dosagem diversa: nome_dos_div
+    required: True
+    datatype: area
+    show if:
+      variable: dos_div
+      is: True
+  - Qual a dosagem pleiteada?: dosagem_pleiteada
+    note: |
+      Ex: 300mg 
+    required: True
+    datatype: area
+    show if:
+      variable: dos_div
+      is: True
+  - Qual a dosagem incorporada ao SUS?: dosagem_incorporada
+    note: |
+      Ex: 500mg
+    required: True
+    datatype: area
+    show if:
+      variable: dos_div
+      is: True
+  - Nome do medicamento incorporado com forma de dispensação diversa: nome_for_div
+    required: True
+    datatype: area
+    show if:
+      variable: for_div
+      is: True
+  - Qual a forma de dispensação pleiteada?: forma_pleiteada
+    note: |
+      Ex: comprimidos revestidos
+    required: True
+    datatype: area
+    show if:
+      variable: for_div
+      is: True
+  - Qual a forma de dispensação incorporada ao SUS?: forma_incorporada
+    note: |
+      Ex: gotas
+    required: True
+    datatype: area
+    show if:
+      variable: for_div
+      is: True
+  - Tipo de Diabetes: insulina_diabete_tipo
+    input type: radio
+    choices:
+      - Tipo 1
+      - Tipo 2
+    show if:
+      variable: insulina
+      is: True
+  - Nome do(s) medicamento(s) do Grupo 1 A: nome_1a
+    required: True
+    datatype: area
+    show if:
+      variable: um_a
+      is: True
+  - Nome do(s) medicamento(s) do Grupo 1B/2: nome_1b2
+    required: True
+    datatype: area
+    show if:
+      variable: dois_b
+      is: True
+  - Nome do(s) medicamento(s) do CBAF: nome_cbaf
+    required: True
+    datatype: area
+    show if:
+      variable: cbaf
+      is: True
+  - Nome do(s) medicamento(s) sem Registro na ANVISA: nome_sem_anvisa
+    required: True
+    datatype: area
+    show if:
+      variable: sem_anvisa
+      is: True
+under: |
+  Descreva o nome do(s) medicamentos com base utilizando preferencialmente o seu princípio ativo seguido do nome comercial entre parênteses. Ex: Rivaroxabana (Xarelto®)
+---
+question: |
+  O paciente está cadastrado no PCDT para receber do medicamento do CEAF?
+field: cadastro_ceaf
+buttons:
+  - "Sim": True
+  - "Não": False
+subquestion: Nos termos da Decisão/PGE/MS/GENÉRICO/Nº 015/2020, caso a resposta seja "sim", não haverá apresentação de defesa quanto ao pedido de fornecimento do medicamento do Grupo 1B/2 do CEAF e, em relação ao medicamento do Grupo 1A, haverá apenas o pedido de direcionamento. 
+---
+if: |
+  cadastro_ceaf == False
+question: |
+  Houve tentativa sem sucesso de cadastro no PCDT?
+field: cadastro_ceaf_try
+buttons:
+  - "Sim": True
+  - "Não": False
+---
+question: |
+  Selecione as insulina(s) pleiteadas:
+fields:
+  - INSULINA DE AÇÃO PROLONGADA SEM ESPECIFICAÇÃO: insulina_prol_sem
+    datatype: yesnowide
+  - INSULINA DE AÇÃO RÁPIDA SEM ESPECIFICAÇÃO: insulina_rap_sem
+    datatype: yesnowide
+  - INSULINA ASPARTE (®NOVORAPID / NOVOMIX 30 / FIASP): insulina_asparte
+    datatype: yesnowide
+  - INSULINA GLULISINA (®APIDRA): insulina_glulisina
+    datatype: yesnowide
+  - INSULINA LISPRO (®HUMALOG / HUMALOG MIX): insulina_lispro
+    datatype: yesnowide
+  - INSULINA DEGLUDECA (®TRESIBA): insulina_degludeca
+    datatype: yesnowide    
+  - INSULINA DETEMIR (®LEVEMIR): insulina_detemir
+    datatype: yesnowide
+  - INSULINA GLARGINA (®LANTUS / BASAGLAR / TOUJEO / GLARGILIN): insulina_glargina
+    datatype: yesnowide
+  - INSULINA GLARGINA + LIXISENATIDA (®SOLIQUA): insulina_glargina_lixisenatida
+    datatype: yesnowide
+  - OUTRA INSULINA: insulina_outra
+    datatype: yesnowide
+---
+question: |
+  Classifique o(s) medicamento(s) oncológico(s):
+fields:
+  - Não Incorporado: onco_nao_inc
+    datatype: yesnowide
+  - Incorporado: onco_inc 
+    datatype: yesnowide
+  - Compra Centralizada: onco_centralizado
+    datatype: yesnowide
+  - Nome do Medicamento: nome_onco_nao_inc
+    required: True
+    datatype: area
+    show if:
+      variable:
+       onco_nao_inc
+      is:
+        True
+  - Nome do Medicamento: nome_onco_inc
+    required: True
+    datatype: combobox
+    choices:
+        - Alfainterferona
+        - Cloridrato de Erlotinibe
+        - Gefitinibe
+        - Antirretroviral Zidovudina
+        - Sunitinibe
+        - Pazopanibe
+        - Abiraterona
+        - Brentuximabe
+        - Bortezomibe
+        - Vemurafenibe
+        - Dabrafenibe
+        - Cobimetinibe
+        - Trametinibe
+        - Ipilimumabe
+        - Nivolumabe
+        - Pembrolizumabe
+        - Abemaciclibe
+        - Palbociclibe
+        - Succinato de Ribociclibe
+        - Trastuzumabe Entansina
+        - Blinatumomabe
+    show if:
+      variable:
+       onco_inc
+      is:
+        True
+  - Nome do Medicamento: nome_onco_centralizado
+    required: True
+    datatype: combobox
+    choices:
+        - Trastuzumabe
+        - Talidomida
+        - Rituximabe
+        - Mesilato de Imatinibe
+        - Pertuzumabe
+        - Dasatinibe
+        - Nilotinibe
+    show if:
+      variable:
+       onco_centralizado
+      is:
+        True
+under: |
+  Descreva o nome do(s) medicamentos com base utilizando preferencialmente o seu princípio ativo seguido do nome comercial entre parênteses. Ex: Rivaroxabana (Xarelto®) 
+---
+question: |
+  Tema 106/STJ:
+fields:
+  - O laudo médico está fundamentado adequadamente?: laudo_fund
+    datatype: yesnoradio
+    note: |
+      - Considera-se bem fundamentado o laudo que evidencia a utilização, sem sucesso, das alternativas do SUS e consegue demonstrar a imprescindibilidade do tratamento pleiteado. 
+  - Deseja anexar imagem do laudo médico?: laudo_img_question
+    datatype: yesnoradio
+    show if:
+      variable:
+        laudo_fund
+      is:
+        False
+  - Existem alternativas terapêuticas pelo SUS?: alternativas
+    datatype: yesnoradio
+  - Deseja inserir dados de evidências científicas?: evid_cient
+    datatype: yesnoradio    
+  - Há prova da incapacidade financeira?: incapacidade
+    datatype: yesnoradio
+    note: |
+      - Marque "sim" sempre que a parte foi assitida pela Defensoria Pública.
+  - Existem medicamentos não incorporados que possuem parecer negativo da CONITEC?: conitec
+    note: | 
+      - Consulte https://www.gov.br/conitec/pt-br/assuntos/avaliacao-de-tecnologias-em-saude/ordem-alfabetica-1
+    datatype: yesnoradio
+  - Há pedido de fornecimento de medicamento offlabel?: offlabel
+    datatype: yesnoradio
+  - Nome dos medicamentos offlabel: offlabel_nome
+    datatype: area
+    show if:
+      variable:
+        offlabel
+      is:
+        True  
+  - Adicione uma imagem recortada da indicação de uso da bula do medicamento: bula_img
+    required: True
+    datatype: files
+    show if:
+      variable:
+        offlabel
+      is:
+        True
+  - Nome dos medicamentos que possuem parecer negativo da CONITEC: conitec_nome
+    note: | 
+      - Escreva o(s) nome(s) em CAIXA ALTA. 
+    datatype: area
+    show if:
+      variable:
+        conitec
+      is:
+        True     
+  - Imagem do laudo médico: laudo_img
+    required: True
+    datatype: files
+    show if:
+      variable:
+        laudo_img_question
+      is:
+        True
+  - Liste as alternativas oferecidas pelo SUS: alternativas_list
+    note: | 
+      - Inicie o texto com "o SUS oferece (...)"
+      - Ex: "o SUS oferece os medicamentos x, y e z por meio do PCDT (...)" ou;
+      - EX: "o SUS oferece tratamento para patologia por meio de (...)"
+    required: True
+    datatype: area
+    show if:
+      variable:
+        alternativas
+      is:
+        True
+  - Descreva as evidências científicas: evid_cient_list
+    note: | 
+      - Ex: "Conforme parecer do NAT (fls.), há estudos (...)"
+    required: True
+    datatype: area
+    show if:
+      variable:
+        evid_cient
+      is:
+        True
+---
+question: |
+  Informações sobre a Cirurgia:
+fields:
+  - "A Cirurgia é Eletiva?": cirurgia_eletiva
+    datatype: yesnoradio
+  - "A Cirurgia é oferecida pelo SUS?": cirurgia_SUS_estado
+    datatype: yesnoradio
+  - "O paciente está no SISREG?": cirurgia_sisreg
+    datatype: yesnoradio
+    show if:
+      variable: cirurgia_SUS_estado
+      is: True
+  - "O paciente está no SISREG por mais de 180 dias?": cirurgia_sisreg_tempo
+    datatype: yesnoradio
+    show if:
+      variable:
+       cirurgia_sisreg
+      is:
+        True
+  - "Há laudo médico indicando a cirurgia?": cirurgia_laudo
+    datatype: yesnoradio
+  - "O laudo é emitido por médico do SUS?": cirurgia_laudo_SUS
+    datatype: yesnoradio  
+    show if:
+      variable:
+       cirurgia_laudo
+      is:
+        True    
+  - "Foi o médico do SUS quem forneceu o orçamento?": cirurgia_orc_SUS
+    datatype: yesnoradio
+    show if:
+      variable:
+       cirurgia_laudo_SUS
+      is:
+        True    
+---
+question: |
+  Informações sobre o Exame:
+fields:
+  - "O exame é de urgência?": exame_urgente
+    datatype: yesnoradio
+  - "O Exame é oferecido pelo SUS?": exame_SUS_estado
+    datatype: yesnoradio
+  - "O(a) paciente está inserido(a) no SISREG?": exame_sisreg
+    datatype: yesnoradio
+    show if:
+      variable:
+       exame_SUS_estado
+      is:
+        True
+  - "O(a) paciente está inserido(a) SISREG por mais de 100 dias?": exame_sisreg_tempo
+    datatype: yesnoradio
+    show if:
+      variable:
+       exame_sisreg
+      is:
+        True
+---
+question: |
+  Questões Processuais:
+fields:
+  - 'Há pedido genérico?': pedido_gen
+    datatype: yesnoradio
+  - 'Há pedido de inversão do ônus da prova?': pedido_onus
+    datatype: yesnoradio
+  - 'Há alegação a respeito do IAC n° 14?': iac_14
+    datatype: yesnoradio
+  - 'Há coisa julgada?': prel_coisa_julgada
+    datatype: yesnoradio
+  - 'Há litispendência?': prel_litis
+    datatype: yesnoradio
+  - 'Nº do processo ref. à coisa julgada': autos_coisa_julgada
+    show if:
+      variable: prel_coisa_julgada
+      is: True
+  - 'Nº do processo ref. à litispendência': autos_litis
+    show if:
+      variable: prel_litis
+      is: True
+  - 'Há pedido de restituição de valores?': pedido_rest
+    datatype: yesnoradio
+---
+code: |
+  if medicamento == True \
+     and naoinc == True:
+    med_nao_incorporado = True
+  else:
+    med_nao_incorporado = False
+  if medicamento == True \
+     and pat_div == True:
+    med_inc_pat_div = True
+  else:
+    med_inc_pat_div = False
+  if medicamento == True \
+     and dos_div == True:
+    med_inc_dos_div = True
+  else:
+    med_inc_dos_div = False
+  if medicamento == True \
+     and for_div == True:
+    med_inc_for_div = True
+  else:
+    med_inc_for_div = False
+  if medicamento == True \
+     and um_a == True:
+    med_1a = True
+  else:
+    med_1a = False
+  if medicamento == True \
+     and dois_b == True:
+    med_2b = True
+  else:
+    med_2b = False
+  if medicamento == True \
+     and cbaf == True:
+    med_cbaf = True
+  else:
+    med_cbaf = False
+  if medicamento == True \
+     and sem_anvisa == True:
+    med_sem_anvisa = True
+  else:
+    med_sem_anvisa = False
+  if medicamento == True \
+     and insulina == True:
+    med_insulina = True
+  else:
+    med_insulina = False
+---
+code: |
+  if medicamento == True \
+     and insulina == True \
+     and (insulina_rap_sem == True \
+     or insulina_asparte == True \
+     or insulina_glulisina == True \
+     or insulina_lispro == True):
+    insulina_rap = True
+  else:
+    insulina_rap = False
+  if medicamento == True \
+     and insulina == True \
+     and (insulina_degludeca == True \
+     or insulina_detemir == True \
+     or insulina_glargina == True \
+     or insulina_prol_sem == True \
+     or insulina_glargina_lixisenatida == True):
+    insulina_prol = True
+  else:
+    insulina_prol = False
+---
+code: |
+  if medicamento == True \
+     and onco == True:
+    med_onco = True
+  else:
+    med_onco = False
+  if med_onco == True \
+     and onco_nao_inc == True:
+     med_onco_nao_inc = True
+  else:
+    med_onco_nao_inc = False
+  if medicamento == True \
+     and onco == True \
+     and onco_inc == True:
+    med_onco_inc = True
+  else:
+    med_onco_inc = False
+  if medicamento == True \
+     and onco == True \
+     and onco_centralizado == True:
+    med_onco_centralizado = True
+  else:
+    med_onco_centralizado = False
+---
+code: |  
+  if medicamento == True \
+     and (med_nao_incorporado == True \
+     or med_inc_pat_div == True \
+     or med_inc_dos_div == True \
+     or med_inc_for_div == True) \
+     and offlabel == True:
+    med_offlabel = True     
+  else:
+    med_offlabel = False
+---
+code: |  
+  if medicamento == True \
+     and (med_nao_incorporado == True \
+     or med_inc_pat_div == True \
+     or med_inc_dos_div == True \
+     or med_inc_for_div == True \
+     or med_onco_nao_inc == True):     
+    med_nao_inc_geral = True     
+  else:
+    med_nao_inc_geral = False
+---
+code: |
+  if medicamento == True \
+     and (med_1a == True \
+     or med_2b == True) \
+     and cadastro_ceaf == False \
+     and cadastro_ceaf_try == False:
+    prel_cadastro_pcdt = True
+  else:
+    prel_cadastro_pcdt = False
+---
+code: |
+  if mun_ == 'AQUIDAUANA' \
+    or mun_ == 'AMAMBAI' \
+    or mun_ == 'APARECIDA DO TABOADO' \
+    or mun_ == 'CAMPO GRANDE' \
+    or mun_ == 'CASSILÂNDIA' \
+    or mun_ == 'CHAPADÃO DO SUL' \
+    or mun_ == 'CORUMBÁ' \
+    or mun_ == 'COSTA RICA' \
+    or mun_ == 'COXIM' \
+    or mun_ == 'DOURADOS' \
+    or mun_ == 'IVINHEMA' \
+    or mun_ == 'JARDIM' \
+    or mun_ == 'MARACAJÚ' \
+    or mun_ == 'NAVIRAÍ' \
+    or mun_ == 'NOVA ANDRADINA' \
+    or mun_ == 'PARANAÍBA' \
+    or mun_ == 'RIO BRILHANTE' \
+    or mun_ == 'RIO VERDE DE MATO GROSSO' \
+    or mun_ == 'SÃO GABRIEL DO OESTE' \
+    or mun_ == 'SIDROLÂNDIA' \
+    or mun_ == 'TRÊS LAGOAS':
+   gest_pl = True
+  else:
+   gest_pl = False
+---
+code: |
+  if uniao_polo == False \
+     and (med_nao_incorporado == True \
+     or med_inc_pat_div == True \
+     or med_inc_dos_div == True \
+     or med_inc_for_div == True \
+     or med_1a == True \
+     or med_onco == True \
+     or med_insulina == True):
+    prel_uniao = True
+  else:
+    prel_uniao = False
+---
+code: |
+  if mun_polo == False \
+     and (med_cbaf == True \
+     or cirurgia == True \
+     or consulta == True \
+     or exame == True):
+    prel_mun = True
+  else:
+    prel_mun = False
+---
+code: |
+  if uniao_polo == False \
+     and med_sem_anvisa == True:
+    prel_500 = True
+  else:
+    prel_500 = False    
+---
+code: |
+  if juizo == 'Justiça Comum Estadual' \
+     and juizado_per == True:
+    prel_juizado = True
+  else:
+    prel_juizado = False
+---
+code: |
+  if medicamento == True \
+     and receita_med == False:
+    prel_receita = True
+  else:
+    prel_receita = False    
+---
+code: |
+  if prel_500 == True \
+     or prel_cadastro_pcdt == True \
+     or prel_juizado == True \
+     or prel_mun == True \
+     or prel_uniao == True \
+     or prel_coisa_julgada == True \
+     or prel_litis == True \
+     or prel_receita == True \
+     or pedido_gen == True: 
+    preliminares = True
+  else:
+    preliminares = False
+---
+code: |
+  if (exame == True \
+     and exame_urgente == False \
+     and exame_SUS_estado == True) \
+     or (cirurgia == True \
+     and cirurgia_laudo == False) \
+     or (cirurgia == True \
+     and cirurgia_laudo == True \
+     and cirurgia_laudo_SUS == False) \
+     or (cirurgia == True \
+     and cirurgia_eletiva == True \
+     and cirurgia_SUS_estado == True) \
+     or (cirurgia == True \
+     and cirurgia_orc_SUS == True):
+    mer_exame_cirurgia = True
+  else:
+    mer_exame_cirurgia = False
+---
+code: |
+  if (med_1a == True \
+     or med_2b == True) \
+     and cadastro_ceaf == False:
+    mer_pcdt = True
+  else:
+    mer_pcdt = False   
+---
+code: |
+  if medicamento == True \
+     and (med_nao_incorporado == True \
+     or med_inc_pat_div == True \
+     or med_inc_dos_div == True \
+     or med_inc_for_div == True
+     or med_onco_nao_inc == True) \
+     and (laudo_fund == False \
+     or alternativas == True \
+     or incapacidade == False):
+    mer_tema_106 = True
+  else:
+    mer_tema_106 = False
+  if cirurgia == True \
+     and cirurgia_SUS_estado == False \
+     and (laudo_fund == False \
+     or alternativas == True \
+     or incapacidade == False):
+    mer_tema_106_cirurgia = True
+  else:
+    mer_tema_106_cirurgia = False
+  if exame == True \
+     and exame_SUS_estado == False \
+     and (laudo_fund == False \
+     or alternativas == True \
+     or incapacidade == False):
+    mer_tema_106_exame = True
+  else:
+    mer_tema_106_exame = False   
+---
+code: |
+  if valor == 'acima de R$ 120.000,00' \
+     and (med_nao_incorporado == True \
+     or med_onco_nao_inc == True):
+    mer_alto_custo = True
+  else:
+    mer_alto_custo = False
+---
+code: |
+  if tutela_dec == 'deferido' \
+     or tutela_dec == 'parcialmente deferido' :
+    tutela = True
+  else:
+    tutela = False
+---
+question: |
+  Aqui está a sua Contestação:
+attachment:
+  name: contestacao
+  filename: contestacao
+  docx template file: contestacao.docx
+  valid formats:
+    - pdf
+    - docx
+buttons:
+  - Recomeçar: restart
+mandatory: True
+---
